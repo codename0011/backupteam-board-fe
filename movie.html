@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' type='text/css' media='screen'>
+    <title>Document</title>
+</head>
+<body>
+    <a href="movies.html">리스트 보기</a> </br>
+    <h1><span id='movie_tilte'></h1>
+        <ul>
+        <li>ID : <span id="id"></span></li>
+        <li>등록자 : <span id="name"></span></li>
+        <li>작성날짜 : <span id="created_at"></span></li>
+        </ul>
+</body>
+<script>
+    const urlSearch = new URLSearchParams(location.search)
+    const id = urlSearch.get('id')
+    console.log(id)
+    fetch(`http://localhost:3000/movies/${id}`)
+        .then((Response) => Response.json())
+        .then((movie) => {
+            document.getElementById('moive_title').innerHTML = `${movie.movie_title}`
+            document.getElementById('id').innerHTML = `${movie.id}`
+            document.getElementById('name').innerHTML = `${movie.user_id}`
+            document.getElementById('created_at').innerHTML = `${movie.created_at}`
+    })
+</script>    
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>영화등록</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen'>
+</head>
+<body>
+    <h1>영화 제목 등록</h1>
+    <a href="index.html">홈</a>
+    <a href="movies.html">영화 리스트</a></br>
+    영화 제목 : <input type="text" id="movie_title" /></br>
+    <button onclick="bc()">등록하기</button>
+</body>
+<script>
+    //영화등록~~~~
+    const bc = () => {
+        fetch("http://localhost:3000/movies", {
+  method: 'POST',
+  headers: {
+      "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+      movie_title:document.getElementById("movie_title").value,
+      user_id: 9
+  }), //body의 데이터 유형은 반드시 "Content-Type"헤더와 일치!
+})
+.then((response) => response.json())
+.then((data) => {
+   location.href="movies.html"
+  })
+}
+</script>
+</html>

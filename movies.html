@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>영화리스트</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen'>
+</head>
+<style>
+  li{
+    display:inline-block;
+    padding: 5px;
+  }
+</style>
+<body>
+    <h1>영화 리스트 보기</h1>
+    <a href="index.html">홈</a>
+    <a href="register.html">영화 등록</a></br>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>등록자</th>
+            <th>조회수</th>
+            <th>등록날짜</th>
+        </tr>
+        <tbody id='movies'>
+        </tbody>
+    </table>
+    <ul id="pagenation">
+    </ul>
+</body>
+</html>
+<script>
+  const urlSearch = new URLSearchParams(location.search)
+  const page = urlSearch.get('page') || 1
+  
+fetch('http://localhost:3000/movies?page=${page}')
+  .then((response) => response.json())
+  .then(movies => {
+    console.log(movies)
+    const html = movies.movies.map(movie => {
+      return`
+    <tr>
+            <td>${movie.id}</td>
+            <td><a href='movie.html?id=${movie.id}'>${movie.movie_title}</a></td>
+            <td>${movie.name}</td>
+            <td>${movie.hit_count}</td>
+            <td>${movie.created_at}</td>
+    </tr>` // ` (의 의미???)
+    })
+    document.getElementById('movies').innerHTML = html.join("")
+
+    const endpage = movies.pagedeteil.endpage
+    const pages = []
+    for (i = 1; i <= endpage; i++){
+      pages.push(`<li><a href="?page=${i}">${i}</li>`)
+    }
+    document.getElementById('pagenation').innerHTML = pages.join("")
+  })
+</script>
